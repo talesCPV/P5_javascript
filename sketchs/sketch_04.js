@@ -106,7 +106,7 @@ function play(){
 
         }else{
             noLoop();
-            alert("Draw Game!!");   
+            alert("Tied Game!!");   
             return
         }
 
