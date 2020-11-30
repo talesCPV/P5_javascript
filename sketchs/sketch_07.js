@@ -1,6 +1,6 @@
 let screen = [600,600];
 let middle = [screen[0]/2,screen[1]/2];
-let end_tunel = [10,10]
+let end_tunel = [30,10]
 let lines = [];
 let speed = 1
 //function preload() {}
@@ -43,13 +43,15 @@ function draw_walls(){
 
 function Wall_lines(){
     this.distance = 100;    
-//    this.box = Math.floor(random(0,5));
-//    this.box_sx = Math.floor(random(1,8));
-//    this.box_sy = Math.floor(random(1,8));
-    this.box = 2;
-    this.box_sx = 30;
-    this.box_sy = 30;
-    this.box_sz = 30;
+    this.box = Math.floor(random(0,5));
+    this.box_sx = Math.floor(random(20,50));
+    this.box_sy = Math.floor(random(20,50));
+    this.box_sz = Math.floor(random(10,50));
+
+//    this.box = 4;
+//    this.box_sx = 30;
+//    this.box_sy = 40;
+//    this.box_sz = 20;
 
 }
 Wall_lines.prototype.draw = function(){
@@ -72,32 +74,51 @@ Wall_lines.prototype.draw = function(){
     }
 }
 Wall_lines.prototype.draw_box = function(x1,y1,x2,y2){
-    let size_y = (y2 - y1) * (this.box_sy / 100);        
-    let size_x = (x2 - x1) * (this.box_sx / 100);     
-    
-    let x3 = ((middle[0] - x1) * (this.box_sz / 100)) + x1 ;            
-    let y3 = ((y2 - middle[1]) * (this.box_sz / 100)) + middle[1];  
-    
-    let x4 = 
-   
+
+
+    let perc =  ((1 - this.distance/100) * ((this.box_sz / 100))) +  this.distance/100 ;
+
+    let x3 = (middle[0] - end_tunel[0]) * perc ;        
+    let y3 = (middle[1] - end_tunel[1]) * perc ;
+    let x4 = width - x3 ;        
+    let y4 = height - y3;
+
+    let size_y1 = (y2 - y1) * (this.box_sy / 100);        
+    let size_x1 = (x2 - x1) * (this.box_sx / 100); 
+
+    let size_y2 = (y4 - y3) * (this.box_sy / 100);        
+    let size_x2 = (x4 - x3) * (this.box_sx / 100);   
+
 
     if(this.box == 1){    
-        rect(x1,y1 ,size_x,size_y);
+        rect(x1,y1 ,size_x1,size_y1);
+        rect(x3, y3 ,size_x2,size_y2);
+        line(x1 + size_x1, y1,x3 + size_x2, y3);
+        line(x1 + size_x1, y1+size_y1,x3 + size_x2, y3+size_y2);
+        line(x1, y1+size_y1,x3, y3+size_y2);
     }
   
     if(this.box == 2){    
-        rect(x1, y2 - size_y,size_x,size_y);
-        line(x1, y2 - size_y,x3,y3);
-        line(x3, y3 ,x3 + (size_x * ((100-this.box_sz) / 100) ),y3);
-    }
-   
+        rect(x1, y2 - size_y1,size_x1,size_y1);
+        rect(x3, y4 - size_y2,size_x2,size_y2);
+        line(x1, y2 - size_y1,x3, y4 - size_y2)
+        line(x1 + size_x1, y2 - size_y1,x3 + size_x2, y4 - size_y2)
+        line(x1 + size_x1, y2,x3 + size_x2, y4)
+    }   
     if(this.box == 3){    
-        rect(x2 - size_x,y2 - size_y,size_x,size_y);
+        rect(x2 - size_x1,y2 - size_y1,size_x1,size_y1);
+        rect(x4 - size_x2,y4 - size_y2,size_x2,size_y2);
+        line(x2 - size_x1,y2 - size_y1,x4 - size_x2,y4 - size_y2)
+        line(x2 - size_x1,y2,x4 - size_x2,y4)
+        line(x2,y2 - size_y1,x4,y4 - size_y2)
     }
 
     if(this.box == 4){    
-        rect(x2 - size_x, y1,size_x,size_y);
- 
+        rect(x2 - size_x1, y1,size_x1,size_y1);
+        rect(x4 - size_x2, y3,size_x2,size_y2);
+        line(x2 - size_x1, y1,x4 - size_x2, y3);
+        line(x2 - size_x1, y1 + size_y1,x4 - size_x2, y3 + size_y2);
+        line(x2, y1 + size_y1,x4, y3 + size_y2);
     }
 
 }
