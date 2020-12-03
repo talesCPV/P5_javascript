@@ -1,3 +1,4 @@
+// SPACE INVADERS
 let screen = [800,600];
 let sprites;
 let pixel = 4;
@@ -113,9 +114,9 @@ function draw_sprite(x,y,EN){
 
 
 function joystick(){
-    if(keyIsDown(LEFT_ARROW)) {    
+    if(keyIsDown(LEFT_ARROW) && p1.x > 20) {    
         p1.x -= 2;
-    }else if(keyIsDown(RIGHT_ARROW)) {    
+    }else if(keyIsDown(RIGHT_ARROW) && p1.x < width - 40) {    
         p1.x += 2;
 
     }

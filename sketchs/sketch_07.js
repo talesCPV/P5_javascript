@@ -1,6 +1,6 @@
 let screen = [600,600];
 let middle = [screen[0]/2,screen[1]/2];
-let end_tunel = [30,10]
+let end_tunel = [10,10]
 let lines = [];
 let speed = 1
 //function preload() {}
@@ -10,6 +10,7 @@ function setup() {
     textSize(20);
     textAlign(10, 10);
     lines.push(new Wall_lines);
+
 
 }
 
@@ -66,7 +67,7 @@ Wall_lines.prototype.draw = function(){
     this.distance -= speed;
     if(this.distance <= 50 && lines.length <= 1){
         lines.push(new Wall_lines);
-    }else if(this.distance <= 0){
+    }else if(this.distance <= -10){
         lines.splice(0, 1);
     }
     if(this.box > 0){
