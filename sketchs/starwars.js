@@ -37,7 +37,7 @@ function draw() {
 
     joystick();
     
-    text('POS:'+pos , 10, 10, 70, 80);
+    text('POS:'+vertices , 10, 10, 70, 80);
 }
 
 function seno(ang){
@@ -46,6 +46,14 @@ function seno(ang){
 
 function cosseno(ang){
     return Math.cos(ang * (Math.PI / 180));
+}
+
+function tangente(ang){
+    return Math.tan(ang * (Math.PI / 180));
+}
+
+function Atangente(x,y){
+    return Math.atan2(y,x) * 57.296;
 }
 
 function get_point(P,V, dist){
@@ -74,9 +82,9 @@ function draw_walls(){
     let P4 =   get_point(D,3 ,1000) ;
 
     line(A[0], A[1], P1[0] , P1[1]);
+//    line(B[0], B[1], P4[0] , P4[1]);
+//    line(C[0], C[1], P3[0] , P3[1]);
     line(D[0], D[1], P2[0] , P2[1]);
-    line(C[0], C[1], P3[0] , P3[1]);
-    line(B[0], B[1], P4[0] , P4[1]);
 
 }
 
@@ -167,6 +175,12 @@ Wall_lines.prototype.draw_box = function(x1,y1,x2,y2){
 
 }
 
+function mod(N){
+    if(N < 0){
+        N *= -1;
+    }
+    return N;
+}
 
 function keyPressed() {
   keyIndex = key.charCodeAt(0);
@@ -185,78 +199,73 @@ function keyPressed() {
 
 
 function joystick(){
+
+    let dist = 10;
+    let per_x = width / dist;
+    let per_y = height / dist;
+
     if(keyIsDown(LEFT_ARROW)) {   
-        pos[0] -= 5;      
+        pos[0] -= 1;      
     }else if(keyIsDown(RIGHT_ARROW)) {    
-        pos[0] += 5; 
+        pos[0] += 1; 
     }
     if(keyIsDown(DOWN_ARROW)) {    
-        pos[1] -= 5; 
+        pos[1] -= 1; 
     } else if(keyIsDown(UP_ARROW)) {    
-        pos[1] += 5; 
+        pos[1] += 1; 
     }
 
     for(let i=0; i<2; i++){
-        if(pos[i] > 90){
-            pos[i] = 90;
-        }else if(pos[i] < -90){
-            pos[i] = -90;
+        if(pos[i] > dist){
+            pos[i] = dist;
+        }else if(pos[i] < -dist){
+            pos[i] = -dist;
         }   
     }
-
-/*
-    add_vert[0] = pos[0] * -1 + pos[1] * -1 ;
-    add_vert[1] = pos[0] * -1 + pos[1]      ;
-    add_vert[2] = pos[0]      + pos[1]      ;
-    add_vert[3] = pos[0]      + pos[1] * -1 ;
-*/
-
-//    if(x<0){ x *= -1 }
-//    if(y<0){ y *= -1 }
-
 
     add_vert[0] = 0;
     add_vert[1] = 0;
     add_vert[2] = 0;
     add_vert[3] = 0;
 
-    let dist = 20;
+
+    add_vert[0] += seno(pos[0]) * dist * -1;
+
+    let h = Math.sqrt(Math.pow((dist-pos[0]),2) + Math.pow((dist-pos[1]),2));
+
+    add_vert[0] = ( Atangente( (per_x * pos[0]), per_y * pos[1]) );
+
+
+
 
 /*
-
     if(pos[0] < 0){
-        add_vert[0] += cosseno(pos[0]) * 20;
-        add_vert[1] += seno(pos[0]) * 20;
-        add_vert[2] += cosseno(pos[0]) * 20;
-        add_vert[3] += cosseno(pos[0]) * 20;
+        add_vert[0] += seno(pos[0]) * dist * -1;
+        add_vert[1] += seno(pos[0]) * dist * -1;
+        add_vert[2] += seno(pos[0]) * dist  ;
+        add_vert[3] += seno(pos[0]) * dist  ;
     } else if(pos[0] > 0){
-        add_vert[0] += cosseno(pos[0]) * 20;
-        add_vert[1] += cosseno(pos[0]) * 20;
-        add_vert[2] += cosseno(pos[0]) * 20;
-        add_vert[3] += seno(pos[0]) * 20;
+        add_vert[0] += (pos[0] / 90) * dist * -1;
+        add_vert[1] += (pos[0] / 90) * dist * -1;
+        add_vert[2] += (pos[0] / 90) * dist  ;
+        add_vert[3] += (pos[0] / 90) * dist  ;
     }
 
     if(pos[1] < 0){
-        add_vert[0] += seno(pos[1]) * 20;
-        add_vert[1] += cosseno(pos[1]) * 20;
-        add_vert[2] += cosseno(pos[1]) * 20;
-        add_vert[3] += seno(pos[1]) * 20;
+        add_vert[0] += seno(pos[1]) * dist * -1;
+        add_vert[1] += seno(pos[1]) * dist ;
+        add_vert[2] += seno(pos[1]) * dist ;
+        add_vert[3] += seno(pos[1]) * dist * -1;
     } else if(pos[1] > 0){
-        add_vert[0] += seno(pos[1]) * 20;
-        add_vert[1] += cosseno(pos[1]) * 20;
-        add_vert[2] += cosseno(pos[1]) * 20;
-        add_vert[3] += seno(pos[1]) * 20;
+        add_vert[0] += (pos[1] / 90) * dist * -1;
+        add_vert[1] += (pos[1] / 90) * dist ;
+        add_vert[2] += (pos[1] / 90) * dist ;
+        add_vert[3] += (pos[1] / 90) * dist * -1;
     }
-*/
-    add_vert[0] += seno(pos[0]) * dist * -1;
-    add_vert[1] += seno(pos[0]) * dist * -1;
-    add_vert[2] += seno(pos[0]) * dist  ;
-    add_vert[3] += seno(pos[0]) * dist  ;
 
-    add_vert[0] += seno(pos[1]) * dist * -1;
-    add_vert[1] += seno(pos[1]) * dist ;
-    add_vert[2] += seno(pos[1]) * dist ;
-    add_vert[3] += seno(pos[1]) * dist * -1;
+*/
+
+
 
    
 }

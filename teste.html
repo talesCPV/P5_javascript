@@ -1,11 +1,64 @@
 <!DOCTYPE html PUBLIC"-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
   <head>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
-    <script src="sketchs/sketch_02.js"></script>
+    <script>
+
+        function seno(ang){
+            return Math.sin(ang * (Math.PI / 180));
+        }
+
+        function cosseno(ang){
+            return Math.cos(ang * (Math.PI / 180));
+        }
+
+        function tangente(ang){
+            return Math.tan(ang * (Math.PI / 180));
+        }
+
+    </script>
   </head>
   <body>
     <main>
+
+      Valor A<input type="text" id="edtA" />
+      Valor B<input type="text" id="edtB" />
+      <br>
+      <input type="button" id="btnSen"  value ="Seno" />
+      <input type="button" id="btnCos"  value ="Cosseno" />
+      <input type="button" id="btnTan"  value ="Tangente" />
+      <input type="button" id="btnAsen"  value ="Tang -1" />
+
+      <script>
+
+        let btnSen = document.getElementById("btnSen");
+        let btnCos = document.getElementById("btnCos");
+        let btnTan = document.getElementById("btnTan");
+        let btnAsen = document.getElementById("btnAsen");
+
+
+        btnSen.onclick = function (){
+          let A = document.getElementById("edtA").value;
+          alert("Seno de "+ A + " = " + seno(A) );
+        }
+        
+        btnCos.onclick = function (){
+          let A = document.getElementById("edtA").value;
+          alert("Cosseno de "+ A + " = " + cosseno(A) );
+        }        
+  
+        btnTan.onclick = function (){
+          let A = document.getElementById("edtA").value;
+          alert("Tangente de "+ A + " = " + tangente(A) );
+        }
+  
+        btnAsen.onclick = function (){
+          let A = document.getElementById("edtA").value;
+          let B = document.getElementById("edtB").value;
+          alert("ATan de "+ A + " e " + B + " = " + Math.atan2(B,A) * 57.296);
+        }
+
+      </script>
+
     </main>
   </body>
 </html>
